@@ -118,8 +118,10 @@ public class T2 {
 
         int currentCount = 0; // 현재 countArray 의 빈도 수를 가져온다.
         int nextCount = 0; // 현재 countArray 의 빈도 수하고 비교를 진행할 그 다음 값인 nextCount 를 가지고 와 값을 비교한다.
-        int swapRandomValue = 0; // randomArray 내 서로 큰 빈도 수 및 큰 수에 따라 서로 위치가 교환된 값들을 저장한다.
-        int swapCountValue = 0; // countArray 내 서로 큰 빈도 수 및 큰 수에 따라 서로 위치가 교환된 값들을 저장한다.
+        // int swapRandomValue = 0; // randomArray 내 서로 큰 빈도 수 및 큰 수에 따라 서로 위치가 교환된 값들을
+        // // 저장한다.
+        // int swapCountValue = 0; // countArray 내 서로 큰 빈도 수 및 큰 수에 따라 서로 위치가 교환된 값들을
+        // // 저장한다.
 
         for (int i = 0; i < countArray.length; i++) {
             for (int j = i + 1; j < countArray.length; j++) {
@@ -136,31 +138,39 @@ public class T2 {
                 // 중복 제거가 되지 않은 배열 및 중복 제거가 된 배열 인덱스의
                 // 위치를 서로 교환한다.
                 if (currentCount < nextCount) {
-                    swapRandomValue = randomArray[i];
-                    randomArray[i] = randomArray[j];
-                    randomArray[j] = swapRandomValue;
+                    // swapRandomValue = randomArray[i];
+                    // randomArray[i] = randomArray[j];
+                    // randomArray[j] = swapRandomValue;
 
-                    swapCountValue = countArray[i];
-                    countArray[i] = countArray[j];
-                    countArray[j] = swapCountValue;
+                    // swapCountValue = countArray[i];
+                    // countArray[i] = countArray[j];
+                    // countArray[j] = swapCountValue;
 
                     // swapRandomValue = swapArray(randomArray, i, j);
                     // swapCountValue = swapArray(countArray, i, j);
+
+                    swapArray(randomArray, i, j);
+                    swapArray(countArray, i, j);
+                    // countArray 의 값을 sortArray 에 넣는다.
                     sortArray[i] = countArray[i];
                 } else if (currentCount == nextCount && currentValue < nextValue) {
                     // 현재 빈도 수의 값과 다음 빈도 수의 값이 같고,
                     // 중복 제거가 되지 않은 배열의 값과 중복 제거된 배열의 값이 같을 때,
                     // 위치를 서로 교환한다.
-                    swapRandomValue = randomArray[i];
-                    randomArray[i] = randomArray[j];
-                    randomArray[j] = swapRandomValue;
+                    // swapRandomValue = randomArray[i];
+                    // randomArray[i] = randomArray[j];
+                    // randomArray[j] = swapRandomValue;
 
-                    swapCountValue = countArray[i];
-                    countArray[i] = countArray[j];
-                    countArray[j] = swapCountValue;
+                    // swapCountValue = countArray[i];
+                    // countArray[i] = countArray[j];
+                    // countArray[j] = swapCountValue;
 
                     // swapRandomValue = swapArray(randomArray, i, j);
                     // swapCountValue = swapArray(countArray, i, j);
+
+                    swapArray(randomArray, i, j);
+                    swapArray(countArray, i, j);
+                    // countArray 의 값을 sortArray 에 넣는다.
                     sortArray[i] = countArray[i];
                 }
             }
@@ -190,6 +200,9 @@ public class T2 {
         // 숫자들의 빈도 수, 그리고 전체 배열을 먼저 빈도 수에 따라 정렬하며, 그 다음 수들을 정렬하여
         // 큰 수를 먼저 출력하는 내림차순 형태로 출력한다.
         int[] sortArray = getSortArray(randomArray, countArray);
+        out.println(sortArray);
+
+        // 5. 숫자들의 빈도 수, 그리고 전체 배열을
 
         result = loopResult + "\n";
 
