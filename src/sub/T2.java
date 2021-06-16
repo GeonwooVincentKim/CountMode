@@ -220,8 +220,7 @@ public class T2 {
         String result = ""; // 전체 결과값을 저장한다.
         String loopResult = ""; // 저장한 배열 안에 있는 random 수들을 출력한다.
 
-        // 1. 사용자가 정한 읽어올 데이터의 개수만큼, 랜덤 수들을 temp 배열에 저장되어 있으며,
-        // 중복되지 않은 랜덤 수(값)들도 저장되어 있다.
+        // 1. 사용자가 정한 입력받을(또는 파일로부터 받을) 데이터의 개수만큼, 랜덤 수들을 temp 배열에 저장한다.
         int[] randomArray = getRandomArray(getDataValue);
         out.println(randomArray.length);
 
