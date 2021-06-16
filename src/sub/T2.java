@@ -21,13 +21,14 @@ public class T2 {
     }
 
     // Random 숫자들의 특정 범위를 지정하며, 특정 범위 내에 있는 값들을 return 한다.
-    public static int extractRandomNumber(RandomNumber randomNumber, int minimum, int maximum) {
+    public static int extractRandomNumber(int minimum, int maximum) {
+        RandomNumber randomNumber = new RandomNumber();
         return randomNumber.extractRandomNumber(minimum, maximum);
     }
 
-    public static int extractRandomNumber(int minimum, int maximum) {
-        return (int) (Math.random() * (maximum - minimum + 1)) + minimum;
-    }
+    // public static int extractRandomNumber(int minimum, int maximum) {
+    // return (int) (Math.random() * (maximum - minimum + 1)) + minimum;
+    // }
 
     // 4-1. 가지고 온 random 값의 중복이 제거 된 countArray 와 중복 제거가 되지 않은 randomArray 의
     // 각 데이터를 하나씩 가지고 온 후, 서로 같은 수가 나올 때마다 true 를 return 시킨다.
@@ -41,14 +42,14 @@ public class T2 {
         return false;
     }
 
-    // 4-2. 가지고 온 random 값의 중복이 제거 된 수들만 담은 countArray 와 random 값 중복까지 모두 포함하고 있는
-    // randomArray 의 각 데이터를 하나씩 가지고 온다.
-    // 만약 서로 같은 수가 나올 때마다 현재 빈도 수 값인 count 을 1씩 증가시킨다.
-    public static int checkArrayFrequency(int[] countArray, int randomValue) {
+    // 4-2. 가지고 온 random 값의 중복까지 모두 포함한 randomArray 배열의 값을 가져온다.
+    // randomArray 배열 끝까지 돌면서, 만약 서로 같은 수가 나올 때마다 현재 빈도 수의 값을 나타내는 count 값을 1씩
+    // 증가시킨다.
+    public static int checkArrayFrequency(int[] randomArray, int randomValue) {
         int count = 0;
 
-        for (int i = 0; i < countArray.length; i++) {
-            if (countArray[i] == randomValue) {
+        for (int i = 0; i < randomArray.length; i++) {
+            if (randomArray[i] == randomValue) {
                 count++;
             }
         }
@@ -103,6 +104,8 @@ public class T2 {
             }
         }
 
+        out.println("getCountArray");
+
         return countArray;
     }
 
@@ -112,6 +115,8 @@ public class T2 {
     // 그 다음 가지고 온 수의 빈도 수가 서로 같다면, 값을 비교하여 큰 수부터 작은 수 순서로 내림차순 정렬을 한다.
     public static int[] getSortArray(int[] randomArray, int[] countArray) {
         int[] sortArray = new int[countArray.length];
+        // int[] sortArray = countArray;
+        // int[] sortArray = getCountArray(randomArray);
 
         int currentValue = 0; // 현재 countArray 의 값을 가져온다.
         int nextValue = 0; // 현재 countArray 의 값과 비교를 진행할 그 다음 값인 currentValue 를 가지고 와 값을 비교한다.
@@ -129,10 +134,10 @@ public class T2 {
                 nextValue = countArray[j];
 
                 // 현재 값의 빈도 수를 확인한다.
-                currentCount = checkArrayFrequency(countArray, currentValue);
+                currentCount = checkArrayFrequency(randomArray, currentValue);
 
                 // 다음 값의 빈도 수를 확인한다.
-                nextCount = checkArrayFrequency(countArray, nextValue);
+                nextCount = checkArrayFrequency(randomArray, nextValue);
 
                 // 현재 빈도 수의 값이 다음 빈도 수의 값보다 작을 때,
                 // 중복 제거가 되지 않은 배열 및 중복 제거가 된 배열 인덱스의
@@ -146,13 +151,23 @@ public class T2 {
                     // countArray[i] = countArray[j];
                     // countArray[j] = swapCountValue;
 
-                    // swapRandomValue = swapArray(randomArray, i, j);
-                    // swapCountValue = swapArray(countArray, i, j);
+                    // 중복된 배열인 randomArray 따로, 중복된 값을 제거한 countArray 따로,
+                    // 각각의 배열에 값을 집어넣는다.
+                    // swapRandomValue = swapArray(randomArray, i, j); // 값의 빈도 수에 따라 정렬
+                    // out.print(swapRandomValue + " ");
+                    // out.print(swapRandomValue + " ....test.....");
+                    // swapCountValue = swapArray(countArray, i, j); // 빈도 수가 아닌 큰 수에 따라 정렬
+                    // out.print(swapCountValue + " ");
 
-                    swapArray(randomArray, i, j);
-                    swapArray(countArray, i, j);
+                    // out.print(swapCountValue + "-----test-----");
+
+                    swapArray(randomArray, i, j); // 값의 빈도 수에 따라 정렬
+                    swapArray(countArray, i, j); // 빈도 수가 아닌 큰 수에 따라 정렬
                     // countArray 의 값을 sortArray 에 넣는다.
+                    // 빈도 수, 그리고 값에 따라 내림차순으로 정렬한 countArray 배열의 값을 sortArray 에 하나씩 대입한다.
                     sortArray[i] = countArray[i];
+                    // sortArray = countArray;
+                    // sortArray[j] = swapRandomValue;
                 } else if (currentCount == nextCount && currentValue < nextValue) {
                     // 현재 빈도 수의 값과 다음 빈도 수의 값이 같고,
                     // 중복 제거가 되지 않은 배열의 값과 중복 제거된 배열의 값이 같을 때,
@@ -165,13 +180,18 @@ public class T2 {
                     // countArray[i] = countArray[j];
                     // countArray[j] = swapCountValue;
 
-                    // swapRandomValue = swapArray(randomArray, i, j);
-                    // swapCountValue = swapArray(countArray, i, j);
+                    // swapRandomValue = swapArray(randomArray, i, j); // 값의 빈도 수에 따라 정렬
+                    // out.print(swapRandomValue + ",,,,test,,,,");
+                    // swapCountValue = swapArray(countArray, i, j); // 빈도 수가 아닌 큰 수에 따라 정렬
+                    // out.print(swapCountValue + "____test____");
 
-                    swapArray(randomArray, i, j);
-                    swapArray(countArray, i, j);
+                    swapArray(randomArray, i, j); // 값의 빈도 수에 따라 정렬
+                    swapArray(countArray, i, j); // 빈도 수가 아닌 큰 수에 따라 정렬
                     // countArray 의 값을 sortArray 에 넣는다.
+                    // 빈도 수, 그리고 값에 따라 내림차순으로 정렬한 countArray 배열의 값을 sortArray 에 하나씩 대입한다.
                     sortArray[i] = countArray[i];
+                    // sortArray = countArray;
+                    // sortArray[j] = swapRandomValue;
                 }
             }
         }
@@ -179,13 +199,29 @@ public class T2 {
         return sortArray;
     }
 
+    // 5. 중복 값이 모두 제거가 된 후, 빈도 수에 따른 정렬, 그리고 큰 값부터 차례대로 오는 sortArray 와
+    // 중복 값이 모두 포함된 randomArray 의 빈도 수를 확인하는 괄호 부분을 만들어
+    // 정렬된 수와 빈도 수를 동시에 확인할 수 있도록 결과 변수인 getResult 에 저장한다.
+    public static String printArray(int printValue, int[] sortArray, int[] randomArray, int[] countArray) {
+        String getResult = "";
+
+        for (int i = 0; i < printValue; i++) {
+            getResult += "#" + (i + 1) + " " + sortArray[i] + " (" + checkArrayFrequency(randomArray, randomArray[i])
+                    + ")" + "\n";
+        }
+
+        return getResult;
+    }
+
     // 읽어온 파일의 데이터를 가지고 와 그 데이터의 최빈값과 빈도 수가 많은 수들, 그리고 빈도 수가 하나 밖에 없는 수들의
     // 데이터들을 출력 및 result 에 저장한다.
     public static String getData(int getDataValue) {
+        int printT = 5; // 결과를 출력할 개수이다.
         String result = ""; // 전체 결과값을 저장한다.
         String loopResult = ""; // 저장한 배열 안에 있는 random 수들을 출력한다.
 
-        // 1. 사용자가 정한 읽어올 데이터의 개수만큼, 랜덤 수들을 temp 배열에 저장한다.
+        // 1. 사용자가 정한 읽어올 데이터의 개수만큼, 랜덤 수들을 temp 배열에 저장되어 있으며,
+        // 중복되지 않은 랜덤 수(값)들도 저장되어 있다.
         int[] randomArray = getRandomArray(getDataValue);
         out.println(randomArray.length);
 
@@ -197,14 +233,14 @@ public class T2 {
         out.println(countArray);
 
         // 4. 중복 된 값들이 포함되어 있는 배열(randomArray)과 중복되지 않는 값들이 담겨진 배열(countArray)을 가지고 온다.
-        // 숫자들의 빈도 수, 그리고 전체 배열을 먼저 빈도 수에 따라 정렬하며, 그 다음 수들을 정렬하여
-        // 큰 수를 먼저 출력하는 내림차순 형태로 출력한다.
+        // 숫자들의 빈도 수, 그리고 전체 배열을 먼저 빈도 수에 따라 정렬하며, 그 다음, 빈도 수가 아닌 값들을 정렬하여
+        // 큰 수를 먼저 출력하고, 작은 수를 나중에 출력하는 내림차순 형태로 출력한다.
         int[] sortArray = getSortArray(randomArray, countArray);
         out.println(sortArray);
 
-        // 5. 숫자들의 빈도 수, 그리고 전체 배열을
-
-        result = loopResult + "\n";
+        // 5. 중복된 값들이 포함된 randomArray 의 빈도 수, 그리고 값들을 정렬한 결과를 출력한다.
+        result = loopResult + "\n" + printArray(printT, sortArray, randomArray, countArray);
+        out.println(result);
 
         return result;
     }
