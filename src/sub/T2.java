@@ -104,8 +104,6 @@ public class T2 {
             }
         }
 
-        out.println("getCountArray");
-
         return countArray;
     }
 
